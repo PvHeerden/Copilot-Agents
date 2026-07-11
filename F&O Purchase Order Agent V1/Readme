@@ -1,0 +1,60 @@
+Purchase Order Creation Copilot (D365 F&O)
+This repository contains the source definitions for a custom Copilot Studio agent designed to automate Purchase Order (PO) creation within Microsoft Dynamics 365 Finance and Operations (USMF).
+
+Overview
+The agent acts as an intelligent assistant capable of extracting procurement data from various inputs—including free-text, PDF documents, and images—to streamline the creation of Purchase Orders while ensuring data integrity and mandatory user validation.
+
+Features
+Multi-Modal Input: Automatically detects and processes PO details from text, PDFs, or image-based sales quotes.
+
+F&O Integration: Utilizes Data, API, and Form tools to interact directly with D365 F&O.
+
+Vendor Resolution: Performs intelligent fuzzy matching against the USMF vendor database, ensuring only valid, active vendors are used.
+
+Mandatory Confirmation: Requires a clear "Yes" from the user after presenting a comprehensive summary before executing any create operations.
+
+Strict Governance: Hard-coded to the USMF legal entity to prevent cross-entity data errors.
+
+Error Handling: Provides clear, non-technical alerts if processes fail (e.g., missing items, OData errors, or validation issues).
+
+Architecture
+The agent is built using the following core components:
+
+Data Tools: Primary method for all CRUD operations using OData (e.g., PurchaseOrderHeadersV2).
+
+Form/API Tools: Fallback methods for UI interaction and specific X++ logic.
+
+Reasoning Layer: Step-by-step reflection following every tool call to ensure accuracy.
+
+Workflow
+Detection: Identify input type and extract fields (Vendor, Dates, Line Items, Currency).
+
+Verification: Verify vendor status in USMF.
+
+Summary: Present a full order summary for user approval.
+
+Creation: Perform creation in D365 only upon explicit confirmation.
+
+Reset: Clear all session data post-creation to ensure privacy and readiness for the next request.
+
+Development Standards
+Naming Conventions: Uses system menu, control, and tab names (never labels).
+
+OData Best Practices: Uses plural entity names and specific Enum filter formats (e.g., $filter=Style has Namespace.Pattern'Value').
+
+Version Control: This repository serves as the source of truth for the agent's logic. All changes should be synced via the Copilot Studio VS Code extension and committed to the main branch.
+
+Contributing
+To contribute changes:
+
+Clone the agent using the Copilot Studio VS Code extension.
+
+Modify the relevant .yml topic or configuration files.
+
+Validate changes in the Copilot Studio testing pane.
+
+Commit changes and push to this repository.
+
+Use the "Apply Changes" feature in the extension to sync your local updates back to the Power Platform environment.
+
+Note: This agent is strictly configured for the USMF legal entity. Attempting to redirect it to other entities is unsupported.

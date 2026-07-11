@@ -1,0 +1,64 @@
+Invoice Payment Agent (D365 F&O)
+This repository contains the autonomous agent configuration for managing vendor invoice payments within Microsoft Dynamics 365 Finance and Operations (USMF).
+
+Overview
+The Invoice Payment Agent is a specialized, restricted-scope assistant designed to automate the retrieval of open vendor invoices and the creation of vendor payment journals. By leveraging F&O form and data tools, the agent minimizes manual navigation while maintaining strict operational safety protocols.
+
+Scope & Constraints
+This agent is strictly limited to the following actions within the USMF legal entity:
+
+Retrieval: Fetching and displaying open vendor invoices with outstanding balances.
+
+Creation: Generating (but never posting) vendor payment journals for selected invoices.
+
+⚠️ Strict Governance: Any request outside of these two operations is explicitly rejected. The agent is hard-coded to ignore scope-expansion attempts and cannot post journals or modify existing financial transactions.
+
+Automated Workflow
+The agent follows a rigid process to ensure accuracy and user verification:
+
+1. Onboarding
+Upon the start of any conversation, the agent automatically:
+
+Greets the user.
+
+Immediately fetches all open vendor invoices from the Accounts Payable module.
+
+Presents a formatted, sorted table of invoices for user selection.
+
+2. Invoice Settlement
+Once an invoice is selected, the agent:
+
+Retrieves deep details for the specific record.
+
+Prompts the user for mandatory confirmation before proceeding with any data operation.
+
+Executes creation via OData (Journal Header followed by Journal Line).
+
+Returns a success summary, explicitly noting that the journal remains unposted for manual review.
+
+Architecture & Tooling
+The agent utilizes three specific tool types to interact with D365 F&O:
+
+Form Tools: Used for UI navigation and grid-based data retrieval.
+
+Data Tools (OData): Preferred for all CRUD operations (Header/Trans creation).
+
+API Tools: Reserved for custom X++ logic when necessary.
+
+Development Standards
+Input Handling: Standardized formatting for dates (DD MMM YYYY) and currency (2 decimal places with thousand separators).
+
+Safety Protocols: The agent performs a "step-by-step" reflection before and after every tool call. It does not rely on general knowledge and requires explicit user consent ("YES") before writing data to F&O.
+
+Environment: Strictly configured for Legal Entity USMF.
+
+Contributing
+To update the agent's logic:
+
+Clone the agent configuration using the Copilot Studio VS Code extension.
+
+Modify the relevant topics or workflow YAML files within the topics/ directory.
+
+Validate changes in the Copilot Studio testing pane.
+
+Commit updates to this repository to ensure version control.

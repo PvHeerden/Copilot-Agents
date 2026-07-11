@@ -1,0 +1,14 @@
+mcs.metadata:
+  componentName: Fin & Ops Apps (Dynamics 365) - Dynamics 365 ERP MCP
+kind: TaskDialog
+modelDisplayName: Dynamics 365 ERP MCP
+modelDescription: Provides Remote MCP Server access to Finance and Operations
+action:
+  kind: InvokeExternalAgentTaskAction
+  connectionReference: cr04c_InvoicePaymentAgent.shared_dynamicsax.faa0ca9bdd804857823ef28d4562a3f9
+  connectionProperties:
+    mode: Invoker
+
+  operationDetails:
+    kind: ModelContextProtocolMetadata
+    operationId: InvokeMCP

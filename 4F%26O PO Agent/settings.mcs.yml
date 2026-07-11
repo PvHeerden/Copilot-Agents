@@ -1,0 +1,47 @@
+displayName: 4F&O PO Agent
+schemaName: cr04c_PurchaseOrderCreationAgent
+accessControlPolicy: GroupMembership
+authenticationMode: Integrated
+authenticationTrigger: Always
+configuration:
+  channels:
+    - channelId: MsTeams
+
+    - channelId: Microsoft365Copilot
+
+  settings:
+    default-2.1.0:
+      content:
+        capabilities:
+          $kind: GptCapabilities
+          diagnostics:
+          webBrowsing: true
+
+        conversationStarters:
+        description:
+        displayName: Purchase Order Creation Agent
+        instructions:
+
+      spec:
+        connectors:
+
+    GenerativeActionsEnabled: true
+
+  isAgentConnectable: true
+  publishOnImport: true
+  gPTSettings:
+    defaultSchemaName: cr04c_PurchaseOrderCreationAgent.gpt.default
+
+  isLightweightBot: false
+  aISettings:
+    useModelKnowledge: true
+    isFileAnalysisEnabled: true
+    isSemanticSearchEnabled: true
+    optInUseLatestModels: false
+
+  recognizer:
+    kind: GenerativeAIRecognizer
+
+publishedOn: 2026-06-04T18:30:49.0000000Z
+template: default-2.1.0
+language: 1033

@@ -1,0 +1,3 @@
+﻿connectionReferences:
+  - connectionReferenceLogicalName: cr04c_PurchaseOrderCreationAgent.shared_dynamicsax.faa0ca9bdd804857823ef28d4562a3f9
+    connectorId: /providers/Microsoft.PowerApps/apis/shared_dynamicsax

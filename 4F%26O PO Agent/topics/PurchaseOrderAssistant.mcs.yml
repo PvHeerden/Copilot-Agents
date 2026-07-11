@@ -1,0 +1,103 @@
+mcs.metadata:
+  componentName: Purchase Order Assistant
+kind: AdaptiveDialog
+modelDescription: Hi! I'm your Purchase Order assistant. I can create purchase orders directly in Microsoft Dynamics 365 Finance & Operations.
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    triggerQueries:
+      - hello
+      - hi
+      - hey
+      - good morning
+      - good afternoon
+      - greetings
+      - start
+      - purchase order
+      - create po
+
+  actions:
+    - kind: SendActivity
+      id: SendActivity_Welcome
+      activity: Hi! I'm your Purchase Order assistant. I can create purchase orders directly in Microsoft Dynamics 365 Finance & Operations.
+
+    - kind: SendActivity
+      id: SendActivity_Card
+      activity:
+        attachments:
+          - kind: AdaptiveCardTemplate
+            cardContent: |
+              {
+                "type": "AdaptiveCard",
+                "version": "1.5",
+                "body": [
+                  {
+                    "type": "TextBlock",
+                    "text": "How would you like to provide the purchase order details?",
+                    "weight": "Bolder",
+                    "size": "Medium",
+                    "wrap": true
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "Please choose an option to get started",
+                    "wrap": true,
+                    "isSubtle": true
+                  }
+                ],
+                "actions": [
+                  {
+                    "type": "Action.Submit",
+                    "title": "Describe it",
+                    "data": { "userChoice": "describe" }
+                  },
+                  {
+                    "type": "Action.Submit",
+                    "title": "Upload a PDF",
+                    "data": { "userChoice": "upload_pdf" }
+                  },
+                  {
+                    "type": "Action.Submit",
+                    "title": "Upload an image",
+                    "data": { "userChoice": "upload_image" }
+                  }
+                ]
+              }
+
+    - kind: SetVariable
+      id: SetVariable_UserChoice
+      variable: Topic.UserChoice
+      value: =System.Activity.Value.userChoice
+
+    - kind: ConditionGroup
+      id: ConditionGroup_InputMethod
+      conditions:
+        - id: condition_describe
+          condition: =Topic.UserChoice = "describe"
+          actions:
+            - kind: SendActivity
+              id: SendActivity_Describe
+              activity: Please describe the purchase order — include the vendor, items, quantities, pricing, and any relevant dates.
+
+        - id: condition_pdf
+          condition: =Topic.UserChoice = "upload_pdf"
+          actions:
+            - kind: SendActivity
+              id: SendActivity_PDF
+              activity: Please upload the supplier's sales quote as a PDF file.
+
+        - id: condition_image
+          condition: =Topic.UserChoice = "upload_image"
+          actions:
+            - kind: SendActivity
+              id: SendActivity_Image
+              activity: Please upload a photo or scan of the sales quote.
+
+      elseActions:
+        - kind: SendActivity
+          id: SendActivity_Default
+          activity: I didn't catch that. Please choose one of the options from the card above.
+
+inputType: {}
+outputType: {}
